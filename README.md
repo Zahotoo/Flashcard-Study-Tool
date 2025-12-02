@@ -1,11 +1,11 @@
-# Flashcard Study Tool — Multi-Language Edition
+# Flashcard Study Tool — EN -> FR Edition
 ### Event Handling • File I/O
 
 ---
 
 ## Overview
 
-This project implements a **multi-language flashcard study tool** using Java Swing, designed to demonstrate:
+This project implements a **English -> French flashcard study tool** using Java Swing, designed to demonstrate:
 
 - **Event Handling**
     - `ActionEvent` (button clicks)
@@ -16,10 +16,6 @@ This project implements a **multi-language flashcard study tool** using Java Swi
     - Load flashcards from `.txt` files
     - Save study progress to an output file
 
-- **Three Translation Modes**
-    - English → French
-    - English → German
-    - English → Spanish
 
 Users can flip cards, navigate using keys, and save progress reports.
 
@@ -35,10 +31,9 @@ src/
   FlashcardLoader.java
   FlashcardPanel.java
   FlashcardApp.java
+  Main.java
 
 flashcards_en_fr.txt
-flashcards_en_de.txt
-flashcards_en_es.txt
 ```
 
 ---
@@ -55,11 +50,8 @@ Stores:
 - Translation (`back`)
 
 #### b) `FlashcardLoader` class
-Reads one of the following files:
-
+Reads the file:
 - `flashcards_en_fr.txt`
-- `flashcards_en_de.txt`
-- `flashcards_en_es.txt`
 
 Format:
 
@@ -126,8 +118,6 @@ On click:
 - Trigger ActionEvent
 - Save progress to:
     - `progress_fr.txt`
-    - `progress_de.txt`
-    - `progress_es.txt`
 
 Saved data example:
 
@@ -163,22 +153,4 @@ book=le livre
 computer=l’ordinateur
 water=l’eau
 house=la maison
-```
-
-### `flashcards_en_de.txt`
-```
-apple=der Apfel
-book=das Buch
-computer=der Computer
-water=das Wasser
-house=das Haus
-```
-
-### `flashcards_en_es.txt`
-```
-apple=la manzana
-book=el libro
-computer=la computadora
-water=el agua
-house=la casa
 ```
