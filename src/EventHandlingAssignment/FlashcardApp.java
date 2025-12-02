@@ -19,23 +19,16 @@ public class FlashcardApp extends JFrame {
     private final FlashcardPanel flashcardPanel;
     // All cards for this session
     private final List<Flashcard> cards;
-    // Human-readable description of the language mode (unused in header now)
-    private final String languageMode;
     // File name to which progress should be saved, e.g. "progress_fr.txt"
-    private final String progressFileName;
+    private final String progressFileName = "progress_fr.txt";
     // Timestamp (in milliseconds) recorded when the window is created
     private final long startTimeMillis;
 
     /**
      * Construct the main application window.
      *
-     * @param cards            list of flashcards to study
-     * @param languageMode     label describing the language direction
-     * @param progressFileName file to append the progress summary to
      */
-    public FlashcardApp(List<Flashcard> cards,
-                        String languageMode,
-                        String progressFileName) {
+    public FlashcardApp(List<Flashcard> cards) {
         super("Flashcard Study Tool");
 
         // --- Basic argument validation ---
@@ -43,15 +36,10 @@ public class FlashcardApp extends JFrame {
         if (cards == null) {
             throw new IllegalArgumentException("cards must not be null");
         }
-        if (languageMode == null || progressFileName == null) {
-            throw new IllegalArgumentException("languageMode and progressFileName must not be null");
-        }
 
         // --- Initialize fields used during the session ---
 
         this.cards = cards;
-        this.languageMode = languageMode;
-        this.progressFileName = progressFileName;
         this.startTimeMillis = System.currentTimeMillis();
 
         // --- Basic frame configuration ---
@@ -102,22 +90,19 @@ public class FlashcardApp extends JFrame {
         // Repeats = how many flips go beyond the number of distinct cards
         int repeats = flashcardPanel.esc_cnt;
 
-        long elapsedMillis = System.currentTimeMillis() - startTimeMillis;
-        long totalSeconds = elapsedMillis / 1000;
-        long minutes = totalSeconds / 60;
-        long seconds = totalSeconds % 60;
+        long elapsed = (System.currentTimeMillis() - startTimeMillis) / 1000;
 
         // --- Build a human-readable summary string ---
 
         StringBuilder sb = new StringBuilder();
-        sb.append("We only focus on 1 language: ENGLISH -> FRENCH")
+        sb.append("Flashcard Study Tool: ENGLISH -> FRENCH")
                 .append(System.lineSeparator());
         sb.append("Total flashcards studied: ").append(totalFlashcards)
                 .append(System.lineSeparator());
         sb.append("Flips: ").append(flips).append(System.lineSeparator());
         sb.append("Repeats: ").append(repeats).append(System.lineSeparator());
         sb.append("Time spent: ")
-                .append(minutes).append(" minutes ").append(seconds).append(" seconds")
+                .append(elapsed).append(" seconds")
                 .append(System.lineSeparator());
         sb.append(System.lineSeparator());
 
