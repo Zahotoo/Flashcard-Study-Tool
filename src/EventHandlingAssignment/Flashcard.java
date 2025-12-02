@@ -1,9 +1,14 @@
 package EventHandlingAssignment;
 
+/**
+ * Simple value object representing a flashcard:
+ * front  = English word
+ * back   = translation
+ */
 public class Flashcard {
 
-    private String front;  // English
-    private String back;   // Translation
+    private final String front;
+    private final String back;
 
     public Flashcard(String front, String back) {
         this.front = front;
@@ -18,4 +23,3 @@ public class Flashcard {
         return back;
     }
 }
-
