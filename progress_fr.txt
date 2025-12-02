@@ -1,18 +1,5 @@
-Language mode: English -> French
-Total flashcards studied: 20
-Flips: 0
-Repeats: 0
-Time spent: 0 minutes 2 seconds
-
-Language mode: English -> French
-Total flashcards studied: 20
-Flips: 0
-Repeats: 0
-Time spent: 0 minutes 2 seconds
-
-Language mode: English -> French
-Total flashcards studied: 20
+Language mode: English → French
+Total flashcards: 20
 Flips: 3
-Repeats: 0
-Time spent: 0 minutes 5 seconds
-
+Repeats: 2
+Time spent: 6 seconds

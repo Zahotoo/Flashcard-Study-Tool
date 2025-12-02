@@ -106,6 +106,7 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
 
     // -------- KeyListener: ESC / LEFT / RIGHT navigation --------
 
+    public int esc_cnt = 0;
     @Override
     public void keyPressed(KeyEvent e) {
         if (cards == null || cards.isEmpty()) {
@@ -118,6 +119,7 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
             case KeyEvent.VK_ESCAPE:
                 // restart from first card
                 currentIndex = 0;
+                esc_cnt++;
                 break;
             case KeyEvent.VK_LEFT:
                 // previous card

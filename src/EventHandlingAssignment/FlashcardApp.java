@@ -15,27 +15,19 @@ public class FlashcardApp extends JFrame {
 
     // --- State for the window and study session ---
 
-    // UI panel that displays and navigates flashcards
+    // UI panel that displays and navigates flashcards=
     private final FlashcardPanel flashcardPanel;
     // All cards for this session
     private final List<Flashcard> cards;
-    // Human-readable description of the language mode, e.g. "English -> French"
-    private final String languageMode;
     // File name to which progress should be saved, e.g. "progress_fr.txt"
-    private final String progressFileName;
+    private final String progressFileName = "progress_fr.txt";
     // Timestamp (in milliseconds) recorded when the window is created
     private final long startTimeMillis;
 
     /**
      * Construct the main application window.
-     *
-     * @param cards            list of flashcards to study
-     * @param languageMode     label describing the language direction
-     * @param progressFileName file to append the progress summary to
      */
-    public FlashcardApp(List<Flashcard> cards,
-                        String languageMode,
-                        String progressFileName) {
+    public FlashcardApp(List<Flashcard> cards) {
         super("Flashcard Study Tool");
 
         // --- Basic argument validation ---
@@ -43,15 +35,10 @@ public class FlashcardApp extends JFrame {
         if (cards == null) {
             throw new IllegalArgumentException("cards must not be null");
         }
-        if (languageMode == null || progressFileName == null) {
-            throw new IllegalArgumentException("languageMode and progressFileName must not be null");
-        }
 
         // --- Initialize fields used during the session ---
 
         this.cards = cards;
-        this.languageMode = languageMode;
-        this.progressFileName = progressFileName;
         this.startTimeMillis = System.currentTimeMillis();
 
         // --- Basic frame configuration ---
@@ -100,33 +87,24 @@ public class FlashcardApp extends JFrame {
         int totalFlashcards = cards.size();
         int flips = flashcardPanel.getFlipCount();
         // Repeats = how many flips go beyond the number of distinct cards
-        int repeats = Math.max(0, flips - totalFlashcards);
+        int repeats = flashcardPanel.esc_cnt;
 
-        long elapsedMillis = System.currentTimeMillis() - startTimeMillis;
-        long totalSeconds = elapsedMillis / 1000;
-        long minutes = totalSeconds / 60;
-        long seconds = totalSeconds % 60;
+        long elapsed = (System.currentTimeMillis() - startTimeMillis) / 1000;
 
         // --- Build a human-readable summary string ---
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Language mode: ").append(languageMode).append(System.lineSeparator());
-        sb.append("Total flashcards studied: ").append(totalFlashcards).append(System.lineSeparator());
-        sb.append("Flips: ").append(flips).append(System.lineSeparator());
-        sb.append("Repeats: ").append(repeats).append(System.lineSeparator());
-        sb.append("Time spent: ")
-          .append(minutes).append(" minutes ").append(seconds).append(" seconds")
-          .append(System.lineSeparator());
-        sb.append(System.lineSeparator());
+        sb.append("Language mode: English → French\n");
+        sb.append("Total flashcards: ").append(totalFlashcards).append("\n");
+        sb.append("Flips: ").append(flips).append("\n");
+        sb.append("Repeats: ").append(repeats).append("\n");
+        sb.append("Time spent: ").append(elapsed).append(" seconds\n");
 
-        // --- Append the summary to the appropriate progress file ---
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(progressFileName, true))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(progressFileName))) {
             out.print(sb.toString());
-            JOptionPane.showMessageDialog(this, "Progress saved to " + progressFileName);
+            JOptionPane.showMessageDialog(this, "Progress saved!");
         } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Could not save progress.");
+            JOptionPane.showMessageDialog(this, "Error saving file.");
         }
     }
 }
