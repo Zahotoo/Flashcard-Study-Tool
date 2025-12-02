@@ -24,27 +24,33 @@ public class FlashcardLoader {
      * @throws IOException if the file cannot be read
      */
     public static List<Flashcard> loadFromFile(String fileName) throws IOException {
+        // --- Basic argument validation ---
         if (fileName == null) {
             throw new IllegalArgumentException("fileName must not be null");
         }
 
+        // --- Prepare container for results ---
         List<Flashcard> cards = new ArrayList<>();
 
+        // --- Open the file and read it line by line ---
         try (BufferedReader br = Files.newBufferedReader(
                 Paths.get(fileName), StandardCharsets.UTF_8)) {
 
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
+
+                // Skip empty lines
                 if (line.isEmpty()) {
-                    // skip empty lines
                     continue;
                 }
+
+                // --- Parse "english=translation" format ---
 
                 // Split on the first "=" only
                 String[] parts = line.split("=", 2);
                 if (parts.length < 2) {
-                    // malformed line, ignore
+                    // Malformed line, ignore it
                     continue;
                 }
 

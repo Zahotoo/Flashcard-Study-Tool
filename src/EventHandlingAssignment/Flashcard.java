@@ -7,9 +7,14 @@ package EventHandlingAssignment;
  */
 public class Flashcard {
 
+    // --- Immutable state for a single flashcard ---
+
     private final String front;
     private final String back;
 
+    /**
+     * Construct a flashcard with a front (English) and back (translation).
+     */
     public Flashcard(String front, String back) {
         this.front = front;
         this.back = back;

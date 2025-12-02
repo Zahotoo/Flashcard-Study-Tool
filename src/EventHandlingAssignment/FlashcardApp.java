@@ -19,7 +19,7 @@ public class FlashcardApp extends JFrame {
     private final FlashcardPanel flashcardPanel;
     // All cards for this session
     private final List<Flashcard> cards;
-    // Human-readable description of the language mode, e.g. "English -> French"
+    // Human-readable description of the language mode (unused in header now)
     private final String languageMode;
     // File name to which progress should be saved, e.g. "progress_fr.txt"
     private final String progressFileName;
@@ -88,7 +88,7 @@ public class FlashcardApp extends JFrame {
      * Build and write a study summary to the progress file.
      * Example output:
      *
-     * Language mode: English -> French
+     * We only focus on 1 language: ENGLISH -> FRENCH
      * Total flashcards studied: 14
      * Flips: 21
      * Repeats: 6
@@ -100,7 +100,7 @@ public class FlashcardApp extends JFrame {
         int totalFlashcards = cards.size();
         int flips = flashcardPanel.getFlipCount();
         // Repeats = how many flips go beyond the number of distinct cards
-        int repeats = Math.max(0, flips - totalFlashcards);
+        int repeats = flashcardPanel.esc_cnt;
 
         long elapsedMillis = System.currentTimeMillis() - startTimeMillis;
         long totalSeconds = elapsedMillis / 1000;
@@ -110,13 +110,15 @@ public class FlashcardApp extends JFrame {
         // --- Build a human-readable summary string ---
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Language mode: ").append(languageMode).append(System.lineSeparator());
-        sb.append("Total flashcards studied: ").append(totalFlashcards).append(System.lineSeparator());
+        sb.append("We only focus on 1 language: ENGLISH -> FRENCH")
+                .append(System.lineSeparator());
+        sb.append("Total flashcards studied: ").append(totalFlashcards)
+                .append(System.lineSeparator());
         sb.append("Flips: ").append(flips).append(System.lineSeparator());
         sb.append("Repeats: ").append(repeats).append(System.lineSeparator());
         sb.append("Time spent: ")
-          .append(minutes).append(" minutes ").append(seconds).append(" seconds")
-          .append(System.lineSeparator());
+                .append(minutes).append(" minutes ").append(seconds).append(" seconds")
+                .append(System.lineSeparator());
         sb.append(System.lineSeparator());
 
         // --- Append the summary to the appropriate progress file ---

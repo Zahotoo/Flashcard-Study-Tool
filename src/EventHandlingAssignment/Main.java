@@ -6,58 +6,24 @@ import java.util.List;
 
 /**
  * Entry point:
- *  1. Ask the user which language to study.
- *  2. Load the corresponding flashcard file.
- *  3. Launch the GUI application.
+ *  1. Load the English->French flashcard file.
+ *  2. Launch the GUI application.
  */
 public class Main {
     public static void main(String[] args) {
 
-        String[] options = {"French", "German", "Spanish"};
-        String choice = (String) JOptionPane.showInputDialog(
-                null,
-                "Choose language:",
-                "Language",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
+        // Fixed configuration: we only focus on ENGLISH -> FRENCH
+        String fileName = "src/Flashcards_Text/flashcards_en_fr.txt";
+        String languageMode = "English -> French";
+        String progressFileName = "progress_fr.txt";
 
-        if (choice == null) {
-            // user cancelled
-            return;
-        }
-
-        String fileName;
-        String languageMode;
-        String progressFileName;
-
-        // Map menu choice -> card file + language label + progress file
-        switch (choice) {
-            case "French":
-                fileName = "src/Flashcards_Text/flashcards_en_fr.txt";
-                languageMode = "English -> French";
-                progressFileName = "progress_fr.txt";
-                break;
-            case "German":
-                fileName = "src/Flashcards_Text/flashcards_en_de.txt";
-                languageMode = "English -> German";
-                progressFileName = "progress_de.txt";
-                break;
-            case "Spanish":
-                fileName = "src/Flashcards_Text/flashcards_en_es.txt";
-                languageMode = "English -> Spanish";
-                progressFileName = "progress_es.txt";
-                break;
-            default:
-                return;
-        }
+        // --- Load flashcards and launch the GUI ---
 
         try {
             List<Flashcard> cards = FlashcardLoader.loadFromFile(fileName);
             System.out.println("Loaded " + cards.size() + " cards from " + fileName);
 
+            // Start the Swing GUI on the Event Dispatch Thread
             SwingUtilities.invokeLater(
                     () -> new FlashcardApp(cards, languageMode, progressFileName)
             );

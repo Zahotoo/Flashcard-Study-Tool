@@ -23,24 +23,35 @@ import java.util.List;
  */
 public class FlashcardPanel extends JPanel implements MouseListener, KeyListener {
 
+    // --- UI state for the currently displayed flashcard ---
+
     private Flashcard currentCard;
     private final JLabel textLabel;
     private boolean showingFront = true;
     private int flipCount = 0;          // counts how many times the user flipped
 
+    // --- Full deck and navigation index ---
+
     private List<Flashcard> cards;      // all flashcards for navigation
     private int currentIndex = -1;      // index of the currently shown card
 
+    /**
+     * Construct the panel and set up its basic appearance and listeners.
+     */
     public FlashcardPanel() {
+        // Panel styling
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(400, 200));
 
+        // Center label to show flashcard text
         textLabel = new JLabel("No card loaded", SwingConstants.CENTER);
         textLabel.setFont(textLabel.getFont().deriveFont(Font.BOLD, 24f));
 
+        // Layout: label in the center
         setLayout(new BorderLayout());
         add(textLabel, BorderLayout.CENTER);
 
+        // Register this panel as a mouse and key listener
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
@@ -77,11 +88,16 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
         repaint();
     }
 
+    /**
+     * Returns how many times the user has flipped between front/back.
+     */
     public int getFlipCount() {
         return flipCount;
     }
 
-    // -------- MouseListener: click to flip --------
+    // ---------------------------------------------------------------------
+    // MouseListener implementation: click to flip the current card
+    // ---------------------------------------------------------------------
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -89,6 +105,7 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
             return;
         }
 
+        // Toggle between front and back
         showingFront = !showingFront;
         flipCount++;
 
@@ -98,16 +115,19 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
             textLabel.setText(currentCard.getBack());
         }
     }
-//have implenment all 5 actions but no need these 4(just mouse clicked)
+
     @Override public void mousePressed(MouseEvent e) { }
     @Override public void mouseReleased(MouseEvent e) { }
     @Override public void mouseEntered(MouseEvent e) { }
     @Override public void mouseExited(MouseEvent e) { }
 
-    // -------- KeyListener: ESC / LEFT / RIGHT navigation --------
-
+    // ---------------------------------------------------------------------
+    // KeyListener implementation: ESC / LEFT / RIGHT for navigation
+    // ---------------------------------------------------------------------
+    public int esc_cnt = 0;
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (cards == null || cards.isEmpty()) {
             return;
         }
@@ -116,27 +136,28 @@ public class FlashcardPanel extends JPanel implements MouseListener, KeyListener
 
         switch (code) {
             case KeyEvent.VK_ESCAPE:
-                // restart from first card
+                // Restart from the first card
                 currentIndex = 0;
+                esc_cnt++;
                 break;
             case KeyEvent.VK_LEFT:
-                // previous card
+                // Go to previous card if possible
                 if (currentIndex > 0) {
                     currentIndex--;
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                // next card
+                // Go to next card if possible
                 if (currentIndex < cards.size() - 1) {
                     currentIndex++;
                 }
                 break;
             default:
-                // ignore all other keys
+                // Ignore all other keys
                 return;
         }
 
-        // navigation always resets to front side
+        // Navigation always resets to front side
         setFlashcard(cards.get(currentIndex));
     }
 
