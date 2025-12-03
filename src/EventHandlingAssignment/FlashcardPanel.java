@@ -13,7 +13,6 @@ public class FlashcardPanel extends JPanel {
 
     private JLabel textLabel;
     private boolean showingFront = true;
-    private int flipCount = 0;
 
     public FlashcardPanel() {
 
@@ -30,7 +29,6 @@ public class FlashcardPanel extends JPanel {
                 if (currentCard == null) return;
 
                 showingFront = !showingFront;
-                flipCount++;
 
                 if (showingFront)
                     textLabel.setText(currentCard.getFront());
@@ -76,9 +74,5 @@ public class FlashcardPanel extends JPanel {
             textLabel.setText(card.getFront());
         else
             textLabel.setText("No card loaded");
-    }
-
-    public int getFlipCount() {
-        return flipCount;
     }
 }
