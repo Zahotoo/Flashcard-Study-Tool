@@ -84,7 +84,7 @@ addKeyListener(new KeyAdapter(){});
 ```
 ---
 
-### Q4 — FlashcardApp & Main
+### Q4 — FlashcardApp
 The final question integrates all previous components into a running graphical application.
 
 #### FlashcardApp responsibilities:
