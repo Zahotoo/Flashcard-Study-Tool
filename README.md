@@ -5,21 +5,10 @@
 
 ## Overview
 
-This project implements a **English -> French flashcard study tool** using Java Swing, designed to demonstrate:
+This lab focuses on the use of Java Event Handling and File I/O through the development of a simple Flashcard Study Tool.
+The tool allows a user to study English→French vocabulary by loading word pairs from a file and interacting with a graphical interface using mouse clicks and keyboard input.
 
-- **Event Handling**
-    - `ActionEvent` (button clicks)
-    - `MouseEvent` (flashcard flipping)
-    - `KeyEvent` (keyboard navigation)
-
-- **File Handling**
-    - Load flashcards from `.txt` files
-    - Save study progress to an output file
-
-
-Users can flip cards, navigate using keys, and save progress reports.
-
-This project is structured as a tutorial lab and produces more than **300 lines of fully event-driven Java code** across multiple classes.
+Each question in this lab corresponds to the implementation of one class in the program.
 
 ---
 
@@ -40,110 +29,80 @@ flashcards_en_fr.txt
 
 ## Exercise — Flashcard Study Tool
 
-### Q1 — Load Flashcards from File (File Handling)
+### Q1 — Flashcard Class
+#### Responsibilities:
+1. Store the English word (front)
+2. Store the French translation (back)
 
-Implement:
-
-#### a) `Flashcard` class
-Stores:
-- English word (`front`)
-- Translation (`back`)
-
-#### b) `FlashcardLoader` class
-Reads the file:
-- `flashcards_en_fr.txt`
-
-Format:
-
+#### Code Summary:
 ```
-apple=la pomme
-book=le livre
-computer=l’ordinateur
+private final String front;
+private final String back;
 ```
 
-Requirements:
+### Q2 — FlashcardLoader Class (File I/O)
+The goal of Question 2 was to implement file reading to load vocabulary pairs from `flashcards_en_fr.txt`.
 
-- Read with `BufferedReader`
-- Split on `=`
-- Build a `List<Flashcard>`
-- Choose language mode via JOptionPane menu
-
----
-
-### Q2 — Display Flashcards & Reveal Translation (MouseEvent)
-
-GUI requirements:
-
-- A large `JPanel` (flashcard display)
-- A `JLabel` showing the English word
-
-Mouse behavior:
-
-- Click → show translation
-- Click again → hide translation
-- Track “flip counter”
-
-Example:
-
+Each line in the file is formatted as:
 ```
-apple
-(click)
-la pomme
-(click)
-apple
+english_word=french_translation
+```
+#### Responsibilities:
+1. Read data using `BufferedReader`
+2. Split each line on `"="`
+3. Trim extra whitespace
+4. Create a `Flashcard` object for each line
+5. Return a list of flashcards
+
+#### Code Summary:
+```
+public static List<Flashcard> loadFromFile(String fileName) throws IOException
 ```
 
----
 
-### Q3 — Navigate Flashcards via Keyboard (KeyEvent)
-
-Attach a KeyListener with the following controls:
+### Q3 — FlashcardPanel Class (MouseEvent & KeyEvent)
+This question required implementing user interaction through event handling.
+FlashcardPanel extends `JPanel` and handles:
 
 | Key | Action |
 |------|---------|
-| ESC | Restart from first |
 | LEFT | Previous card |
 | RIGHT | Next card |
 
-Navigation resets translation to hidden.
+#### Mouse Click (MouseEvent)
+1. Flips the card between English (front) and French (back)
+2. Uses a `MouseAdapter` to simplify implementation
+#### Keyboard Navigation (KeyEvent)
+1. `LEFT` -> Previous card
+2. `RIGHT` -> Next card
+3. Always shows the front (English) when navigating
 
----
-
-### Q4 — Save Study Summary (ActionEvent + File Handling)
-
-Add a **Save Progress** button.
-
-On click:
-
-- Trigger ActionEvent
-- Save progress to:
-    - `progress_fr.txt`
-
-Saved data example:
-
+#### Code Summary
 ```
-Language mode: English → French
-Total flashcards studied: 14
-Flips: 21
-Repeats: 6
-Time spent: 3 minutes 41 seconds
+addMouseListener(new MouseAdapter(){});
+addKeyListener(new KeyAdapter(){});
+```
+---
+
+### Q4 — FlashcardApp & Main
+The final question integrates all previous components into a running graphical application.
+
+#### FlashcardApp responsibilities:
+1. Create the main window (`JFrame`)
+2. Create the FlashcardPanel
+3. Load cards into the Panel
+4. Set layout, size, and window properties
+
+#### Code Summary
+```
+public class FlashcardApp extends JFrame
 ```
 
----
-
-## Where Event Handling Is Used
-
-### ✔ MouseEvent
-Used in Q2 to flip cards and track flips.
-
-### ✔ KeyEvent
-Used in Q3 to navigate between flashcards.
-
-### ✔ ActionEvent
-Used in Q4 to save progress to a file.
+#### Main Responsibilities:
+1. Load the flashcard file
+2. Launch the GUI application using SwingUtilities.invokeLater
 
 ---
-
 ## Example Flashcard Files
 
 ### `flashcards_en_fr.txt`
