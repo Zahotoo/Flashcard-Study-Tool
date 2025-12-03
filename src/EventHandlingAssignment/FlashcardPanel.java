@@ -73,6 +73,7 @@ public class FlashcardPanel extends JPanel {
 
         //And set the keyboard focusable to detect the keyboard input.
         setFocusable(true);
+        requestFocusInWindow();
     }
 
     //In the end, we should do some setter methods
